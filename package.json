@@ -1,5 +1,5 @@
 {
-  "name": "@iosystems/assistant-widget",
+  "name": "@creastat/assistant-widget",
   "version": "1.0.0",
   "description": "Headless chat widget library with vanilla JS core and React components",
   "type": "module",
@@ -44,7 +44,7 @@
     "websocket",
     "react"
   ],
-  "author": "IOSystems",
+  "author": "Creastat",
   "license": "MIT",
   "peerDependencies": {
     "react": ">=19.0.0",

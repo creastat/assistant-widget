@@ -1,4 +1,4 @@
-# Chat Widget v2
+# Chat Widget
 
 A production-ready, headless chat widget library built with vanilla TypeScript core and React components.
 
@@ -16,9 +16,9 @@ A production-ready, headless chat widget library built with vanilla TypeScript c
 ## Installation
 
 ```bash
-npm install @iosystems/assistant-widget
+npm install @creastat/assistant-widget
 # or
-bun add @iosystems/assistant-widget
+bun add @creastat/assistant-widget
 ```
 
 ## Quick Start
@@ -26,7 +26,7 @@ bun add @iosystems/assistant-widget
 ### React Component
 
 ```tsx
-import { ChatWidget } from '@iosystems/assistant-widget/react';
+import { ChatWidget } from '@creastat/assistant-widget/react';
 
 function App() {
   return (
@@ -47,7 +47,7 @@ function App() {
 ### Vanilla JavaScript
 
 ```ts
-import { ChatService } from '@iosystems/assistant-widget';
+import { ChatService } from '@creastat/assistant-widget';
 
 const chat = new ChatService(
   {
@@ -241,4 +241,4 @@ Contributions are welcome! Please read our contributing guidelines first.
 
 ## Credits
 
-Built by IOSystems team with ❤️
+Built by Creastat team with ❤️

@@ -37,7 +37,7 @@ export function App() {
             </div>
           </div>
           <p className="text-lg text-slate-600">
-            IOSystems headless chat widget with React components
+            Creastat headless chat widget with React components
           </p>
         </header>
 

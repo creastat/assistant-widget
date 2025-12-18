@@ -5,7 +5,7 @@
  *
  * Usage in dashboard:
  * ```typescript
- * import { generateWidgetScript } from '@iosystems/assistant-widget/generator';
+ * import { generateWidgetScript } from '@creastat/assistant-widget/generator';
  *
  * const script = generateWidgetScript({
  *   siteToken: user.siteToken,
@@ -43,8 +43,8 @@ export function generateWidgetScript(config: WidgetScriptConfig): string {
     title = 'Chat Support',
     placeholder = 'Type your message...',
     lang = 'en',
-    cdnUrl = 'https://cdn.iosystems.com/assistant-widget/v2/embed.js',
-    serverUrl = 'wss://api.iosystems.com/ws',
+    cdnUrl = 'https://cdn.creastat.com/assistant-widget/v2/embed.js',
+    serverUrl = 'wss://api.creastat.com/ws',
   } = config;
 
   // Format custom colors for script
@@ -54,7 +54,7 @@ export function generateWidgetScript(config: WidgetScriptConfig): string {
       ).join('\n')
     : 'null';
 
-  return `<!-- IOSystems Chat Widget -->
+  return `<!-- Creastat Chat Widget -->
 <script>
 (function() {
   var config = {
@@ -78,7 +78,7 @@ export function generateWidgetScript(config: WidgetScriptConfig): string {
   script.async = true;
   script.src = config.cdnUrl;
   script.onerror = function() {
-    console.error('Failed to load IOSystems Chat Widget');
+    console.error('Failed to load Creastat Chat Widget');
   };
 
   var firstScript = document.getElementsByTagName('script')[0];
@@ -98,13 +98,13 @@ export function generateWidgetScriptMinified(config: WidgetScriptConfig): string
     title = 'Chat Support',
     placeholder = 'Type your message...',
     lang = 'en',
-    cdnUrl = 'https://cdn.iosystems.com/assistant-widget/v2/embed.js',
-    serverUrl = 'wss://api.iosystems.com/ws',
+    cdnUrl = 'https://cdn.creastat.com/assistant-widget/v2/embed.js',
+    serverUrl = 'wss://bot.creastat.com/ws',
   } = config;
 
   const customColorsStr = customColors ? JSON.stringify(customColors) : 'null';
 
-  return `<script>(function(){var c={cdnUrl:'${cdnUrl}',siteToken:'${siteToken}',theme:'${theme}',customColors:${customColorsStr},serverUrl:'${serverUrl}',title:'${title}',placeholder:'${placeholder}',lang:'${lang}'};window.IOChat=window.IOChat||function(){(window.IOChat.q=window.IOChat.q || []).push(arguments)};window.IOChat.l=+new Date();window.IOChat.config=c;var s=document.createElement('script');s.async=true;s.src=c.cdnUrl;s.onerror=function(){console.error('Failed to load IOSystems Chat Widget')};var f=document.getElementsByTagName('script')[0];f.parentNode.insertBefore(s,f)})();</script>`;
+  return `<script>(function(){var c={cdnUrl:'${cdnUrl}',siteToken:'${siteToken}',theme:'${theme}',customColors:${customColorsStr},serverUrl:'${serverUrl}',title:'${title}',placeholder:'${placeholder}',lang:'${lang}'};window.IOChat=window.IOChat||function(){(window.IOChat.q=window.IOChat.q || []).push(arguments)};window.IOChat.l=+new Date();window.IOChat.config=c;var s=document.createElement('script');s.async=true;s.src=c.cdnUrl;s.onerror=function(){console.error('Failed to load Creastat Chat Widget')};var f=document.getElementsByTagName('script')[0];f.parentNode.insertBefore(s,f)})();</script>`;
 }
 
 /**

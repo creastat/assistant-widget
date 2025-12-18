@@ -1,5 +1,5 @@
 /**
- * IOSystems Chat Widget Loader
+ * Creastat Chat Widget Loader
  * Google Analytics-style async loader
  *
  * This file serves as a template for generating user-specific loader scripts
@@ -9,7 +9,7 @@
 (function() {
   // Configuration (will be replaced by dashboard)
   var config = {
-    cdnUrl: 'CDN_URL', // e.g., 'https://cdn.iosystems.com/assistant-widget/v2/embed.js'
+    cdnUrl: 'CDN_URL', // e.g., 'https://cdn.creastat.com/assistant-widget/v2/embed.js'
     siteToken: 'SITE_TOKEN', // User's unique site token
     theme: 'THEME', // Theme variant (brown, dark, light, yellow, red, green, blue, custom)
     customColors: CUSTOM_COLORS, // Custom colors object or null
@@ -35,7 +35,7 @@
 
   // Error handling
   script.onerror = function() {
-    console.error('Failed to load IOSystems Chat Widget');
+    console.error('Failed to load Creastat Chat Widget');
   };
 
   // Insert script into DOM

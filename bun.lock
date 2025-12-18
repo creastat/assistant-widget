@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "@iosystems/assistant-widget",
+      "name": "@creastat/assistant-widget",
       "dependencies": {
         "marked": "^17.0.0",
       },
