@@ -1,6 +1,6 @@
 {
   "name": "@iosystems/assistant-widget",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Headless chat widget library with vanilla JS core and React components",
   "type": "module",
   "main": "./dist/index.js",
