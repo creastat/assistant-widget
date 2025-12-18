@@ -4,18 +4,18 @@
   font-family: 'Stolzl', system-ui, -apple-system, sans-serif;
 }
 
-/* Base Theme Variables (Defaults to Brown if not overridden) */
+/* Base Theme Variables (Defaults to Dark if not overridden) */
 :root {
-  --theme-primary: #814133;
+  --theme-primary: #333333;
   --theme-background: #ffffff;
   --theme-foreground: #101010;
   --theme-muted: #f5f5f5;
   --theme-border: #e5e5e5;
-  --theme-accent-icon: #BA7263;
+  --theme-accent-icon: #999999;
   --theme-overlay: rgba(0, 0, 0, 0.4);
-  --theme-glass: rgba(255, 255, 255, 0.1);
+  --theme-glass: rgba(255, 255, 255, 0.05);
   --theme-text-light: #ffffff;
-  --theme-text-muted: rgba(255, 255, 255, 0.8);
+  --theme-text-muted: rgba(255, 255, 255, 0.6);
 
   /* Shared Properties */
   --spacing-widget: 1rem;
@@ -30,23 +30,13 @@
 }
 
 /* Theme Variants */
-.theme-variant-brown {
-  --theme-primary: #814133;
-  --theme-accent-icon: #BA7263;
-  --theme-glass: rgba(255, 255, 255, 0.1);
-  --theme-text-light: #ffffff;
-  --theme-text-muted: rgba(255, 255, 255, 0.8);
-  /* Gradient specific to brown theme for now, or can be generic */
-  --theme-gradient: radial-gradient(100% 118.27% at 0% 0%, rgba(129, 65, 51, 0.95) 0%, rgba(69, 50, 48, 0.95) 100%);
-}
-
 .theme-variant-dark {
   --theme-primary: #333333;
   --theme-accent-icon: #999999;
   --theme-glass: rgba(255, 255, 255, 0.05);
   --theme-text-light: #ffffff;
   --theme-text-muted: rgba(255, 255, 255, 0.6);
-  --theme-gradient: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.7) 100%);
+  --theme-gradient: radial-gradient(100% 118.27% at 0% 0%, rgba(51, 51, 51, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
 }
 
 .theme-variant-light {
@@ -55,7 +45,7 @@
   --theme-glass: rgba(255, 255, 255, 0.1);
   --theme-text-light: #ffffff; 
   --theme-text-muted: rgba(255, 255, 255, 0.8);
-  --theme-gradient: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 100%);
+  --theme-gradient: radial-gradient(100% 118.27% at 0% 0%, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 100%);
 }
 
 /* Vibrant Variants */
@@ -65,7 +55,7 @@
   --theme-glass: rgba(255, 255, 255, 0.25);
   --theme-text-light: #4E342E;  /* Dark Brown text for contrast on warm yellow */
   --theme-text-muted: rgba(78, 52, 46, 0.7);
-  --theme-gradient: linear-gradient(135deg, #FFD54F 0%, #FFB300 100%);
+  --theme-gradient: radial-gradient(100% 118.27% at 0% 0%, rgba(255, 179, 0, 0.95) 0%, rgba(204, 136, 0, 0.95) 100%);
 }
 
 .theme-variant-red {
@@ -74,7 +64,7 @@
   --theme-glass: rgba(255, 255, 255, 0.2);
   --theme-text-light: #FFFFFF;
   --theme-text-muted: rgba(255, 255, 255, 0.8);
-  --theme-gradient: linear-gradient(135deg, #FF5252 0%, #D32F2F 100%);
+  --theme-gradient: radial-gradient(100% 118.27% at 0% 0%, rgba(255, 82, 82, 0.95) 0%, rgba(211, 47, 47, 0.95) 100%);
 }
 
 .theme-variant-green {
@@ -83,7 +73,7 @@
   --theme-glass: rgba(255, 255, 255, 0.2);
   --theme-text-light: #FFFFFF;
   --theme-text-muted: rgba(255, 255, 255, 0.8);
-  --theme-gradient: linear-gradient(135deg, #66BB6A 0%, #43A047 100%);
+  --theme-gradient: radial-gradient(100% 118.27% at 0% 0%, rgba(67, 160, 71, 0.95) 0%, rgba(56, 142, 60, 0.95) 100%);
 }
 
 .theme-variant-blue {
@@ -92,7 +82,25 @@
   --theme-glass: rgba(255, 255, 255, 0.2);
   --theme-text-light: #FFFFFF;
   --theme-text-muted: rgba(255, 255, 255, 0.8);
-  --theme-gradient: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  --theme-gradient: radial-gradient(100% 118.27% at 0% 0%, rgba(30, 136, 229, 0.95) 0%, rgba(13, 71, 161, 0.95) 100%);
+}
+
+.theme-variant-brown {
+  --theme-primary: #814133;
+  --theme-accent-icon: #BA7263;
+  --theme-glass: rgba(255, 255, 255, 0.1);
+  --theme-text-light: #ffffff;
+  --theme-text-muted: rgba(255, 255, 255, 0.8);
+  --theme-gradient: radial-gradient(100% 118.27% at 0% 0%, rgba(129, 65, 51, 0.95) 0%, rgba(69, 50, 48, 0.95) 100%);
+}
+
+.theme-variant-purple {
+  --theme-primary: #6366f1;
+  --theme-accent-icon: #8b5cf6;
+  --theme-glass: rgba(255, 255, 255, 0.15);
+  --theme-text-light: #FFFFFF;
+  --theme-text-muted: rgba(255, 255, 255, 0.85);
+  --theme-gradient: radial-gradient(100% 118.27% at 0% 0%, rgba(99, 102, 241, 0.7) 0%, rgba(79, 70, 229, 0.7) 100%);
 }
 
 .theme-variant-custom {
@@ -101,7 +109,7 @@
   --theme-accent-icon: var(--theme-primary); 
   
   /* Generate gradient from primary color unless overridden */
-  --theme-gradient: linear-gradient(135deg, color-mix(in srgb, var(--theme-primary), white 20%) 0%, var(--theme-primary) 100%);
+  --theme-gradient: radial-gradient(100% 118.27% at 0% 0%, color-mix(in srgb, var(--theme-primary), rgba(0, 0, 0, 0.05)) 0%, color-mix(in srgb, var(--theme-primary), rgba(0, 0, 0, 0.3)) 100%);
 }
 
 
@@ -126,7 +134,7 @@
   pointer-events: auto;
   
   /* Use variables */
-  background: var(--theme-gradient, radial-gradient(100% 118.27% at 0% 0%, rgba(129, 65, 51, 0.95) 0%, rgba(69, 50, 48, 0.95) 100%));
+  background: var(--theme-gradient, radial-gradient(100% 118.27% at 0% 0%, rgba(51, 51, 51, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%));
   
   border-radius: 19px;
   box-shadow: 0px -16px 54px rgba(0, 0, 0, 0.2);

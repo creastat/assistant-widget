@@ -9,7 +9,7 @@
 (function() {
   // Configuration (will be replaced by dashboard)
   var config = {
-    cdnUrl: 'CDN_URL', // e.g., 'https://cdn.creastat.com/assistant-widget/v2/embed.js'
+    cdnUrl: 'CDN_URL', // e.g., 'https://cdn.creastat.com/assistant-widget/v1/embed.js'
     siteToken: 'SITE_TOKEN', // User's unique site token
     theme: 'THEME', // Theme variant (brown, dark, light, yellow, red, green, blue, custom)
     customColors: CUSTOM_COLORS, // Custom colors object or null

@@ -43,7 +43,7 @@ export function generateWidgetScript(config: WidgetScriptConfig): string {
     title = 'Chat Support',
     placeholder = 'Type your message...',
     lang = 'en',
-    cdnUrl = 'https://cdn.creastat.com/assistant-widget/v2/embed.js',
+    cdnUrl = 'https://cdn.creastat.com/assistant-widget/v1/embed.js',
     serverUrl = 'wss://api.creastat.com/ws',
   } = config;
 
@@ -98,7 +98,7 @@ export function generateWidgetScriptMinified(config: WidgetScriptConfig): string
     title = 'Chat Support',
     placeholder = 'Type your message...',
     lang = 'en',
-    cdnUrl = 'https://cdn.creastat.com/assistant-widget/v2/embed.js',
+    cdnUrl = 'https://cdn.creastat.com/assistant-widget/v1/embed.js',
     serverUrl = 'wss://bot.creastat.com/ws',
   } = config;
 
