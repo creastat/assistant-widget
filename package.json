@@ -1,0 +1,78 @@
+{
+  "name": "@iosystems/assistant-widget",
+  "version": "2.0.0",
+  "description": "Headless chat widget library with vanilla JS core and React components",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react/index.js",
+      "types": "./dist/react/index.d.ts"
+    },
+    "./generator": {
+      "import": "./dist/generator.js",
+      "types": "./dist/generator.d.ts"
+    },
+    "./styles": {
+      "import": "./dist/styles.css"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "tsc --emitDeclarationOnly && vite build && BUILD_TARGET=embed vite build",
+    "build:lib": "vite build",
+    "build:embed": "BUILD_TARGET=embed vite build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint . --ext ts,tsx",
+    "preview": "vite preview",
+    "dev:demo": "vite"
+  },
+  "keywords": [
+    "chat",
+    "widget",
+    "headless",
+    "websocket",
+    "react"
+  ],
+  "author": "IOSystems",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.18.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7"
+  },
+  "dependencies": {
+    "marked": "^17.0.0"
+  }
+}

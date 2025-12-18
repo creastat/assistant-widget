@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vanilla JS Chat Widget Demo - IOSystems</title>
+  <link rel="stylesheet" href="../dist/styles.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 3rem;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #1a202c;
+      margin: 0;
+    }
+
+    .nav-link {
+      padding: 0.75rem 1.5rem;
+      background: #1a202c;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .nav-link:hover {
+      background: #2d3748;
+      transform: translateY(-1px);
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: #4a5568;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: #1a202c;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.125rem;
+      color: #2d3748;
+      margin-bottom: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    h3:first-of-type {
+      margin-top: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      color: #4a5568;
+    }
+
+    .checkmark {
+      color: #48bb78;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    pre {
+      background: #1a202c;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    code {
+      font-family: 'Monaco', 'Courier New', monospace;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .control-group {
+      margin-bottom: 1rem;
+    }
+
+    .control-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #4a5568;
+      margin-bottom: 0.5rem;
+    }
+
+    .controls button {
+      padding: 0.75rem 1.5rem;
+      background: #1a202c;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .controls button:hover {
+      background: #2d3748;
+      transform: translateY(-1px);
+    }
+
+    .controls button:active {
+      transform: translateY(0);
+    }
+
+    .controls button.secondary {
+      background: #4299e1;
+    }
+
+    .controls button.secondary:hover {
+      background: #3182ce;
+    }
+
+    .controls button.danger {
+      background: #f56565;
+    }
+
+    .controls button.danger:hover {
+      background: #e53e3e;
+    }
+
+    .variant-btn {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.875rem;
+      background: white;
+      color: #4a5568;
+      border: 1px solid #e2e8f0;
+      border-radius: 999px;
+    }
+
+    .variant-btn:hover {
+      background: #f7fafc;
+      transform: none;
+    }
+
+    .variant-btn.active {
+      background: #ebf8ff;
+      color: #2b6cb0;
+      border-color: #bee3f8;
+    }
+
+    .color-input-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      padding: 1rem;
+      background: #f7fafc;
+      border-radius: 0.5rem;
+    }
+
+    .color-input-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    input[type="color"] {
+      height: 40px;
+      width: 100%;
+      cursor: pointer;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .info-box {
+      background: #fef5e7;
+      border: 1px solid #f6e05e;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .info-box p {
+      color: #744210;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .info-box code {
+      background: #faf089;
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: #edf2f7;
+      border-radius: 0.5rem;
+    }
+
+    .status-indicator {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      background: #cbd5e0;
+    }
+
+    .status-indicator.connected {
+      background: #48bb78;
+    }
+
+    .status-indicator.connecting {
+      background: #ed8936;
+    }
+
+    .status-indicator.error {
+      background: #f56565;
+    }
+
+    #demo-area {
+      position: relative;
+      min-height: 400px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #4299e1;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="header-top">
+        <h1>Chat Widget Demo <span class="badge">Vanilla JS</span></h1>
+        <div style="display: flex; gap: 1rem;">
+          <a href="/" class="nav-link">← View React Demo</a>
+          <a href="/demo/embed.html" class="nav-link">View Embed Demo →</a>
+        </div>
+      </div>
+      <p class="subtitle">Core vanilla JavaScript implementation - no frameworks required</p>
+    </header>
+
+    <div class="grid">
+      <!-- Features -->
+      <div class="card">
+        <h2>Features</h2>
+        <ul>
+          <li>
+            <span class="checkmark">✓</span>
+            <span>Pure vanilla JavaScript/TypeScript</span>
+          </li>
+          <li>
+            <span class="checkmark">✓</span>
+            <span>Framework-agnostic core</span>
+          </li>
+          <li>
+            <span class="checkmark">✓</span>
+            <span>WebSocket real-time communication</span>
+          </li>
+          <li>
+            <span class="checkmark">✓</span>
+            <span>Streaming message support</span>
+          </li>
+          <li>
+            <span class="checkmark">✓</span>
+            <span>Markdown rendering</span>
+          </li>
+          <li>
+            <span class="checkmark">✓</span>
+            <span>Auto-reconnection handling</span>
+          </li>
+          <li>
+            <span class="checkmark">✓</span>
+            <span>Built-in voice recording</span>
+          </li>
+          <li>
+            <span class="checkmark">✓</span>
+            <span>Default theme with multiple variants</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Demo Controls -->
+      <div class="card">
+        <h2>Interactive Demo</h2>
+
+        <div class="control-group">
+          <span class="control-label">Main Controls</span>
+          <div class="controls">
+            <button id="init-widget">Initialize Widget</button>
+            <button id="destroy-widget" class="danger" disabled>Destroy Widget</button>
+            <button id="toggle-state" class="secondary" disabled>Toggle State</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">Theme Variant</span>
+          <div class="controls" id="variant-controls">
+            <button class="variant-btn active" data-variant="brown">brown</button>
+            <button class="variant-btn" data-variant="dark">dark</button>
+            <button class="variant-btn" data-variant="light">light</button>
+            <button class="variant-btn" data-variant="yellow">yellow</button>
+            <button class="variant-btn" data-variant="red">red</button>
+            <button class="variant-btn" data-variant="green">green</button>
+            <button class="variant-btn" data-variant="blue">blue</button>
+            <button class="variant-btn" data-variant="custom">custom</button>
+          </div>
+
+          <div id="custom-colors-container" class="color-input-group" style="display: none;">
+            <div class="color-input-wrapper">
+              <label class="control-label">Primary</label>
+              <input type="color" id="custom-primary" value="#FF00FF">
+            </div>
+            <div class="color-input-wrapper">
+              <label class="control-label">Background</label>
+              <input type="color" id="custom-bg" value="#000000">
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="lang-select">Language</label>
+          <select id="lang-select"
+            style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem;">
+            <option value="en" selected>English</option>
+            <option value="ru">Russian</option>
+          </select>
+        </div>
+
+
+        <div class="status">
+          <div class="status-indicator" id="status-indicator"></div>
+          <span id="status-text">Widget not initialized</span>
+        </div>
+
+        <div class="info-box">
+          <p>
+            <strong>Note:</strong> This demo requires a running WebSocket server.
+            Make sure your chat service is running at
+            <code>ws://localhost:8080/ws</code>
+          </p>
+          <p style="margin-top: 0.5rem;">
+            Configure the server URL and token in the browser console:
+            <code>localStorage.setItem('demo_ws_url', 'ws://your-server/ws')</code>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo Area -->
+    <div id="demo-area"></div>
+  </div>
+
+  <!-- Load the widget from built files -->
+  <script type="module">
+    // Configuration from localStorage or defaults
+    const serverUrl = localStorage.getItem('demo_ws_url') || 'ws://localhost:8080/ws';
+    const siteToken = localStorage.getItem('demo_site_token') || 'example_12345';
+
+    let widgetInstance = null;
+    let currentVariant = 'brown';
+    let currentLang = 'en';
+
+    // UI Elements
+    const initBtn = document.getElementById('init-widget');
+    const destroyBtn = document.getElementById('destroy-widget');
+    const toggleStateBtn = document.getElementById('toggle-state');
+    const statusIndicator = document.getElementById('status-indicator');
+    const statusText = document.getElementById('status-text');
+    const variantBtns = document.querySelectorAll('.variant-btn[data-variant]');
+    const langSelect = document.getElementById('lang-select');
+    const customColorsContainer = document.getElementById('custom-colors-container');
+    const customPrimaryInput = document.getElementById('custom-primary');
+    const customBgInput = document.getElementById('custom-bg');
+
+    // Handle variant selection
+    variantBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        variantBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentVariant = btn.dataset.variant;
+
+        // Toggle custom color inputs
+        if (currentVariant === 'custom') {
+          customColorsContainer.style.display = 'flex';
+        } else {
+          customColorsContainer.style.display = 'none';
+        }
+
+        // Update if already running
+        if (widgetInstance) {
+          widgetInstance.updateConfig({
+            variant: currentVariant,
+            customColors: currentVariant === 'custom' ? {
+              primary: customPrimaryInput.value,
+              background: customBgInput.value,
+              textLight: customBgInput.value === '#ffffff' ? '#000000' : '#ffffff'
+            } : null
+          });
+        }
+      });
+    });
+
+    // Handle language selection
+    langSelect.addEventListener('change', () => {
+      currentLang = langSelect.value;
+
+      // Update if already running
+      if (widgetInstance) {
+        widgetInstance.updateConfig({
+          lang: currentLang,
+          title: currentLang === 'ru' ? 'ИО Ассистент' : 'IO Assistant',
+          placeholder: currentLang === 'ru' ? 'Наш сайт умеет говорить, просто спроси...' : 'Our site can speak, just ask...'
+        });
+      }
+    });
+
+    function updateStatus(state, text) {
+      statusIndicator.className = `status-indicator ${state}`;
+      statusText.textContent = text;
+    }
+
+    async function initWidget() {
+      if (widgetInstance) return;
+
+      try {
+        updateStatus('connecting', 'Loading widget...');
+
+        // Dynamic import of the widget
+        const { ChatWidget, DefaultTheme } = await import('../dist/index.js');
+
+        // Prepare config
+        const themeConfig = {
+          title: currentLang === 'ru' ? 'ИО Ассистент' : 'IO Assistant',
+          placeholder: currentLang === 'ru' ? 'Наш сайт умеет говорить, просто спроси...' : 'Our site can speak, just ask...',
+          variant: currentVariant,
+          lang: currentLang
+        };
+
+        if (currentVariant === 'custom') {
+          themeConfig.customColors = {
+            primary: customPrimaryInput.value,
+            background: customBgInput.value,
+            textLight: customBgInput.value === '#ffffff' ? '#000000' : '#ffffff'
+          };
+        }
+
+        const theme = new DefaultTheme(themeConfig);
+
+        // Create widget
+        widgetInstance = new ChatWidget({
+          serverUrl: serverUrl,
+          siteToken: siteToken,
+          debug: true,
+          reconnect: true,
+          onClose: () => {
+            console.log('Widget closed via onClose callback');
+            destroyWidget();
+          }
+        }, theme);
+
+        // Listen to connection state
+        const unsubscribe = widgetInstance.getService().store.subscribe(() => {
+          const state = widgetInstance.getService().store.getState();
+          if (state.isConnected) {
+            updateStatus('connected', 'Connected to server');
+          } else if (state.error) {
+            updateStatus('error', `Error: ${state.error}`);
+          } else {
+            updateStatus('connecting', 'Connecting...');
+          }
+        });
+
+        updateStatus('connected', 'Widget initialized');
+        initBtn.disabled = true;
+        destroyBtn.disabled = false;
+        toggleStateBtn.disabled = false;
+
+        console.log('Widget initialized:', widgetInstance);
+      } catch (error) {
+        console.error('Failed to initialize widget:', error);
+        updateStatus('error', `Failed to initialize: ${error.message}`);
+        alert(`Failed to initialize widget: ${error.message}`);
+      }
+    }
+
+    function destroyWidget() {
+      if (!widgetInstance) return;
+
+      widgetInstance.destroy();
+      widgetInstance = null;
+
+      updateStatus('', 'Widget destroyed');
+      initBtn.disabled = false;
+      destroyBtn.disabled = true;
+      toggleStateBtn.disabled = true;
+
+      console.log('Widget destroyed');
+    }
+
+    // Event Listeners
+    initBtn.addEventListener('click', initWidget);
+    destroyBtn.addEventListener('click', destroyWidget);
+
+    toggleStateBtn.addEventListener('click', () => {
+      if (!widgetInstance) return;
+      const currentState = widgetInstance.getWidgetState();
+      const states = ['minimized', 'input-only', 'full'];
+      const currentIndex = states.indexOf(currentState);
+      const nextState = states[(currentIndex + 1) % states.length];
+      widgetInstance.setWidgetState(nextState);
+    });
+
+    // Custom color updates
+    [customPrimaryInput, customBgInput].forEach(input => {
+      input.addEventListener('change', () => {
+        if (widgetInstance && currentVariant === 'custom') {
+          widgetInstance.updateConfig({
+            customColors: {
+              primary: customPrimaryInput.value,
+              background: customBgInput.value,
+              textLight: customBgInput.value === '#ffffff' ? '#000000' : '#ffffff'
+            }
+          });
+        }
+      });
+    });
+
+    // Log configuration
+    console.log('Demo Configuration:', {
+      serverUrl,
+      siteToken,
+      tip: 'Use localStorage to customize: localStorage.setItem("demo_ws_url", "ws://your-server")'
+    });
+  </script>
+</body>
+
+</html>

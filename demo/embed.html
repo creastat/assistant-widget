@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Widget Script Generator - IOSystems</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: white;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: 1.125rem;
+      opacity: 0.9;
+    }
+
+    .card {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: #1a202c;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #4a5568;
+    }
+
+    input[type="text"],
+    select,
+    textarea {
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    input[type="color"] {
+      height: 40px;
+      width: 100%;
+      cursor: pointer;
+      border-radius: 0.5rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .theme-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .theme-btn {
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.5rem;
+      background: white;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .theme-btn:hover {
+      border-color: #cbd5e0;
+      transform: translateY(-1px);
+    }
+
+    .theme-btn.active {
+      border-color: #667eea;
+      background: #f7fafc;
+      color: #667eea;
+    }
+
+    .theme-preview {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid #e2e8f0;
+    }
+
+    .custom-colors {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f7fafc;
+      border-radius: 0.5rem;
+    }
+
+    .custom-colors.visible {
+      display: grid;
+    }
+
+    .script-output {
+      position: relative;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 400px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      background: #2d3748;
+      color: #e2e8f0;
+      resize: vertical;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5a67d8;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #48bb78;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #38a169;
+      transform: translateY(-1px);
+    }
+
+    .btn-tertiary {
+      background: #ed8936;
+      color: white;
+    }
+
+    .btn-tertiary:hover {
+      background: #dd6b20;
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .info-box {
+      background: #ebf8ff;
+      border-left: 4px solid #4299e1;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .info-box p {
+      color: #2c5282;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #48bb78;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .stat {
+      padding: 1rem;
+      background: #f7fafc;
+      border-radius: 0.5rem;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #718096;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Widget Script Generator <span class="badge">Live</span></h1>
+      <p>Configure your widget settings and generate the installation script</p>
+    </div>
+
+    <div class="card">
+      <h2>Widget Configuration</h2>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="siteToken">Site Token *</label>
+          <input type="text" id="siteToken" value="demo_site_12345" placeholder="your_site_token_here" />
+        </div>
+
+        <div class="form-group">
+          <label for="serverUrl">WebSocket Server URL *</label>
+          <input type="text" id="serverUrl" value="ws://localhost:8080/ws" placeholder="wss://api.iosystems.com/ws" />
+        </div>
+
+        <div class="form-group">
+          <label for="cdnUrl">CDN URL *</label>
+          <input type="text" id="cdnUrl" value="../dist/embed.js"
+            placeholder="https://cdn.iosystems.com/assistant-widget/v2/embed.js" />
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="title">Widget Title</label>
+          <input type="text" id="title" value="AI Support" placeholder="Chat Support" />
+        </div>
+
+        <div class="form-group">
+          <label for="placeholder">Input Placeholder</label>
+          <input type="text" id="placeholder" value="Ask me anything..." placeholder="Type your message..." />
+        </div>
+
+        <div class="form-group">
+          <label for="lang">Language</label>
+          <select id="lang">
+            <option value="en" selected>English (en)</option>
+            <option value="ru">Russian (ru)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top: 1.5rem;">
+        <label>Theme</label>
+        <div class="theme-selector" id="themeSelector">
+          <button class="theme-btn active" data-theme="brown">
+            <div class="theme-preview" style="background: #8B4513;"></div>
+            <span>Brown</span>
+          </button>
+          <button class="theme-btn" data-theme="dark">
+            <div class="theme-preview" style="background: #1a1a1a;"></div>
+            <span>Dark</span>
+          </button>
+          <button class="theme-btn" data-theme="light">
+            <div class="theme-preview" style="background: #ffffff;"></div>
+            <span>Light</span>
+          </button>
+          <button class="theme-btn" data-theme="yellow">
+            <div class="theme-preview" style="background: #fbbf24;"></div>
+            <span>Yellow</span>
+          </button>
+          <button class="theme-btn" data-theme="red">
+            <div class="theme-preview" style="background: #ef4444;"></div>
+            <span>Red</span>
+          </button>
+          <button class="theme-btn" data-theme="green">
+            <div class="theme-preview" style="background: #10b981;"></div>
+            <span>Green</span>
+          </button>
+          <button class="theme-btn" data-theme="blue">
+            <div class="theme-preview" style="background: #3b82f6;"></div>
+            <span>Blue</span>
+          </button>
+          <button class="theme-btn" data-theme="custom">
+            <div class="theme-preview" style="background: linear-gradient(135deg, #FF00FF 0%, #00FFFF 100%);"></div>
+            <span>Custom</span>
+          </button>
+        </div>
+
+        <div class="custom-colors" id="customColors">
+          <div class="form-group">
+            <label for="colorPrimary">Primary Color</label>
+            <input type="color" id="colorPrimary" value="#FF00FF" />
+          </div>
+          <div class="form-group">
+            <label for="colorBackground">Background Color</label>
+            <input type="color" id="colorBackground" value="#000000" />
+          </div>
+          <div class="form-group">
+            <label for="colorText">Text Color</label>
+            <input type="color" id="colorText" value="#FFFFFF" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Generated Installation Script</h2>
+
+      <div class="script-output">
+        <textarea id="scriptOutput" readonly></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn-primary" id="copyBtn">
+          Copy Script
+        </button>
+        <button class="btn-secondary" id="testBtn">
+          Test Widget Now
+        </button>
+        <button class="btn-tertiary" id="downloadBtn">
+          Download Script
+        </button>
+        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; user-select: none;">
+          <input type="checkbox" id="compressToggle" style="cursor: pointer; width: 18px; height: 18px;">
+          <span style="font-size: 0.875rem; color: #4a5568;">Compress Script</span>
+        </label>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value" id="scriptSize">0</div>
+          <div class="stat-label">Bytes</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="scriptLines">0</div>
+          <div class="stat-label">Lines</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="gzipSize">~0</div>
+          <div class="stat-label">Gzipped (est.)</div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <p>
+          <strong>Quick Start:</strong> Copy the script above and paste it into your website's &lt;head&gt; section.
+          The widget will load asynchronously and appear automatically in the bottom-right corner.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentTheme = 'brown';
+    let widgetInstance = null;
+    let isCompressed = false;
+
+    const siteTokenInput = document.getElementById('siteToken');
+    const serverUrlInput = document.getElementById('serverUrl');
+    const cdnUrlInput = document.getElementById('cdnUrl');
+    const titleInput = document.getElementById('title');
+    const placeholderInput = document.getElementById('placeholder');
+    const langInput = document.getElementById('lang');
+    const themeButtons = document.querySelectorAll('.theme-btn');
+    const customColorsDiv = document.getElementById('customColors');
+    const colorPrimaryInput = document.getElementById('colorPrimary');
+    const colorBackgroundInput = document.getElementById('colorBackground');
+    const colorTextInput = document.getElementById('colorText');
+    const scriptOutput = document.getElementById('scriptOutput');
+    const copyBtn = document.getElementById('copyBtn');
+    const testBtn = document.getElementById('testBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const compressToggle = document.getElementById('compressToggle');
+    const scriptSizeEl = document.getElementById('scriptSize');
+    const scriptLinesEl = document.getElementById('scriptLines');
+    const gzipSizeEl = document.getElementById('gzipSize');
+
+    function minifyJS(code) {
+      // Simple but effective minification
+      return code
+        // Remove comments
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/\/\/.*/g, '')
+        // Remove unnecessary whitespace
+        .replace(/\s+/g, ' ')
+        // Remove whitespace around operators and punctuation
+        .replace(/\s*([{};,()=:<>?!&|+\-*\/])\s*/g, '$1')
+        // Remove whitespace after 'var', 'function', 'return', etc.
+        .replace(/\b(var|function|return|if|else|for|while|new)\s+/g, '$1 ')
+        .trim();
+    }
+
+    function generateScript() {
+      const config = {
+        cdnUrl: cdnUrlInput.value.trim(),
+        siteToken: siteTokenInput.value.trim(),
+        theme: currentTheme,
+        customColors: currentTheme === 'custom' ? {
+          primary: colorPrimaryInput.value,
+          background: colorBackgroundInput.value,
+          textLight: colorTextInput.value
+        } : null,
+        serverUrl: serverUrlInput.value.trim(),
+        title: titleInput.value.trim(),
+        placeholder: placeholderInput.value.trim(),
+        lang: langInput.value
+      };
+
+      const customColorsStr = config.customColors
+        ? JSON.stringify(config.customColors, null, 2).split('\n').map((line, i) =>
+          i === 0 ? line : '    ' + line
+        ).join('\n')
+        : 'null';
+
+      // Generate readable version
+      var readable = '<!-- IOSystems Chat Widget -->\n<script>\n(function() {\n  var config = {\n    cdnUrl: \'' + config.cdnUrl + '\',\n    siteToken: \'' + config.siteToken + '\',\n    theme: \'' + config.theme + '\',\n    customColors: ' + customColorsStr + ',\n    serverUrl: \'' + config.serverUrl + '\',\n    title: \'' + config.title + '\',\n    placeholder: \'' + config.placeholder + '\',\n    lang: \'' + config.lang + '\'\n  };\n\n  window.IOChat = window.IOChat || function() {\n    (window.IOChat.q = window.IOChat.q || []).push(arguments);\n  };\n  window.IOChat.l = +new Date();\n  window.IOChat.config = config;\n\n  var script = document.createElement(\'script\');\n  script.async = true;\n  script.src = config.cdnUrl;\n  script.onerror = function() {\n    console.error(\'Failed to load IOSystems Chat Widget\');\n  };\n\n  var firstScript = document.getElementsByTagName(\'script\')[0];\n  firstScript.parentNode.insertBefore(script, firstScript);\n})();\n<\/script>';
+
+      if (isCompressed) {
+        // Extract just the JS part (without HTML comment and script tags)
+        var jsCode = readable.split('<script>')[1].split('<\/script>')[0];
+        // Minify the JS
+        var minified = minifyJS(jsCode);
+        // Wrap back in script tag
+        return '<script>' + minified + '<\/script>';
+      } else {
+        return readable;
+      }
+    }
+
+    function updateScript() {
+      const script = generateScript();
+      scriptOutput.value = script;
+
+      const bytes = new Blob([script]).size;
+      const lines = script.split('\n').length;
+      const estimatedGzip = Math.round(bytes * 0.3);
+
+      scriptSizeEl.textContent = bytes.toLocaleString();
+      scriptLinesEl.textContent = lines;
+      gzipSizeEl.textContent = '~' + estimatedGzip.toLocaleString();
+    }
+
+    themeButtons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        themeButtons.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentTheme = btn.dataset.theme;
+
+        if (currentTheme === 'custom') {
+          customColorsDiv.classList.add('visible');
+        } else {
+          customColorsDiv.classList.remove('visible');
+        }
+
+        updateScript();
+      });
+    });
+
+    [siteTokenInput, serverUrlInput, cdnUrlInput, titleInput, placeholderInput, langInput,
+      colorPrimaryInput, colorBackgroundInput, colorTextInput].forEach(function (input) {
+        input.addEventListener('input', updateScript);
+      });
+
+    copyBtn.addEventListener('click', function () {
+      navigator.clipboard.writeText(scriptOutput.value).then(function () {
+        var originalText = copyBtn.textContent;
+        copyBtn.textContent = '✓ Copied!';
+        copyBtn.disabled = true;
+        setTimeout(function () {
+          copyBtn.textContent = originalText;
+          copyBtn.disabled = false;
+        }, 2000);
+      }).catch(function (err) {
+        console.error('Failed to copy:', err);
+        scriptOutput.select();
+        document.execCommand('copy');
+      });
+    });
+
+    testBtn.addEventListener('click', function () {
+      if (widgetInstance) {
+        widgetInstance.destroy();
+        widgetInstance = null;
+      }
+
+      var config = {
+        serverUrl: serverUrlInput.value.trim(),
+        siteToken: siteTokenInput.value.trim(),
+        variant: currentTheme,
+        title: titleInput.value.trim(),
+        placeholder: placeholderInput.value.trim(),
+        lang: langInput.value,
+        debug: true,
+        reconnect: true
+      };
+
+      if (currentTheme === 'custom') {
+        config.customColors = {
+          primary: colorPrimaryInput.value,
+          background: colorBackgroundInput.value,
+          textLight: colorTextInput.value
+        };
+      }
+
+      if (!window.ChatWidget) {
+        var script = document.createElement('script');
+        script.src = cdnUrlInput.value.trim();
+        script.onload = function () {
+          widgetInstance = window.ChatWidget.init(config);
+          testBtn.textContent = '✓ Widget Loaded';
+          setTimeout(function () {
+            testBtn.textContent = 'Test Widget Now';
+          }, 2000);
+        };
+        script.onerror = function () {
+          alert('Failed to load widget script. Check the CDN URL.');
+        };
+        document.head.appendChild(script);
+      } else {
+        widgetInstance = window.ChatWidget.init(config);
+        testBtn.textContent = '✓ Widget Loaded';
+        setTimeout(function () {
+          testBtn.textContent = 'Test Widget Now';
+        }, 2000);
+      }
+    });
+
+    downloadBtn.addEventListener('click', function () {
+      var script = scriptOutput.value;
+      var blob = new Blob([script], { type: 'text/html' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'iosystems-assistant-widget.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      downloadBtn.textContent = '✓ Downloaded';
+      setTimeout(function () {
+        downloadBtn.textContent = 'Download Script';
+      }, 2000);
+    });
+
+    compressToggle.addEventListener('change', function () {
+      isCompressed = compressToggle.checked;
+      updateScript();
+    });
+
+    updateScript();
+  </script>
+</body>
+
+</html>
