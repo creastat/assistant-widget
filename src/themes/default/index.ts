@@ -11,7 +11,7 @@ export interface ThemeColorPalette {
   textMuted?: string;
 }
 
-export type ThemeVariant = 'brown' | 'dark' | 'light' | 'yellow' | 'red' | 'green' | 'blue' | 'custom';
+export type ThemeVariant = 'brown' | 'dark' | 'light' | 'yellow' | 'red' | 'green' | 'blue' | 'purple' | 'custom';
 
 export interface DefaultThemeConfig {
   title?: string;

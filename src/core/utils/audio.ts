@@ -37,7 +37,7 @@ export async function startAudioRecording(
     },
   });
 
-  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({
+  const audioContext = new (((window as any).AudioContext || (window as any).webkitAudioContext))({
     sampleRate: 16000,
   });
 
@@ -172,50 +172,54 @@ export async function startAudioRecording(
       return Math.sqrt(sum / data.length);
     };
 
-    processorNode.onaudioprocess = (event) => {
-      const inputData = event.inputBuffer.getChannelData(0);
-      const rms = calculateRMS(inputData);
-      const now = Date.now();
+    if (processorNode) {
+      processorNode.onaudioprocess = (event) => {
+        const inputData = event.inputBuffer.getChannelData(0);
+        const rms = calculateRMS(inputData);
+        const now = Date.now();
 
-      const pcmData = new Int16Array(inputData.length);
-      for (let i = 0; i < inputData.length; i++) {
-        const s = Math.max(-1, Math.min(1, inputData[i]));
-        pcmData[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
-      }
-
-      if (rms > SPEECH_THRESHOLD) {
-        consecutiveSpeechChunks++;
-
-        if (consecutiveSpeechChunks >= REQUIRED_SPEECH_CHUNKS) {
-          if (!isSpeaking) {
-            isSpeaking = true;
-            callbacks.onSpeechStart?.();
-          }
-          silenceStartTime = 0;
-          callbacks.onAudioData(pcmData.buffer);
-        } else if (isSpeaking) {
-          silenceStartTime = 0;
-          callbacks.onAudioData(pcmData.buffer);
+        const pcmData = new Int16Array(inputData.length);
+        for (let i = 0; i < inputData.length; i++) {
+          const s = Math.max(-1, Math.min(1, inputData[i]));
+          pcmData[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
         }
-      } else {
-        consecutiveSpeechChunks = 0;
 
-        if (isSpeaking) {
-          if (silenceStartTime === 0) {
-            silenceStartTime = now;
-          } else if (now - silenceStartTime > SILENCE_DURATION) {
-            isSpeaking = false;
+        if (rms > SPEECH_THRESHOLD) {
+          consecutiveSpeechChunks++;
+
+          if (consecutiveSpeechChunks >= REQUIRED_SPEECH_CHUNKS) {
+            if (!isSpeaking) {
+              isSpeaking = true;
+              callbacks.onSpeechStart?.();
+            }
             silenceStartTime = 0;
-            callbacks.onSilence?.();
-          } else {
+            callbacks.onAudioData(pcmData.buffer);
+          } else if (isSpeaking) {
+            silenceStartTime = 0;
             callbacks.onAudioData(pcmData.buffer);
           }
-        }
-      }
-    };
+        } else {
+          consecutiveSpeechChunks = 0;
 
-    source.connect(processorNode);
-    processorNode.connect(audioContext.destination);
+          if (isSpeaking) {
+            if (silenceStartTime === 0) {
+              silenceStartTime = now;
+            } else if (now - silenceStartTime > SILENCE_DURATION) {
+              isSpeaking = false;
+              silenceStartTime = 0;
+              callbacks.onSilence?.();
+            } else {
+              callbacks.onAudioData(pcmData.buffer);
+            }
+          }
+        }
+      };
+    }
+
+    if (processorNode) {
+      source.connect(processorNode);
+      processorNode.connect(audioContext.destination);
+    }
   }
 
   // Create MediaRecorder for fallback/simple recording
@@ -312,7 +316,9 @@ export class AudioPlaybackManager {
     if (this.audioContext && this.audioContext.state !== 'running') {
       try {
         await this.audioContext.resume();
-      } catch (e) {}
+      } catch (_e) {
+        // Ignore resume errors
+      }
     }
 
     try {
@@ -371,7 +377,7 @@ export class AudioPlaybackManager {
       };
 
       source.start(0);
-    } catch (error) {
+    } catch (_error) {
       // Fallback to decodeAudioData if it's a standard format (mp3/wav chunk)
       try {
         const audioBuffer = await this.audioContext!.decodeAudioData(audioData.slice(0));

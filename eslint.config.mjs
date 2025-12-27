@@ -1,13 +1,21 @@
 import js from '@eslint/js';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
+import globals from 'globals';
 
 export default [
   js.configs.recommended,
   {
-    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    ignores: ['src/loader.js', 'dist/**'],
+  },
+  {
+    files: ['src/**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
       parser: tsParser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
