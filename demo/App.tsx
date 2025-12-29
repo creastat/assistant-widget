@@ -10,7 +10,7 @@ export function App() {
   const [lang, setLang] = useState<'en' | 'ru'>('en');
 
   const variants: (ThemeVariant | 'custom')[] = [
-    'brown', 'dark', 'light', 'yellow', 'red', 'green', 'blue', 'custom'
+    'brown', 'dark', 'light', 'yellow', 'red', 'green', 'blue', 'purple', 'custom'
   ];
 
   return (

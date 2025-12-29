@@ -1,6 +1,6 @@
 {
   "name": "@creastat/assistant-widget",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Headless chat widget library with vanilla JS core and React components",
   "keywords": [
     "chat",
