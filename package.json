@@ -1,6 +1,6 @@
 {
   "name": "@creastat/assistant-widget",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Headless chat widget library with vanilla JS core and React components",
   "keywords": [
     "chat",
@@ -53,22 +53,22 @@
     "release": "npm publish --access public"
   },
   "dependencies": {
-    "marked": "^17.0.0"
+    "marked": "^17.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
-    "@types/node": "^22.10.5",
-    "@types/react": "^19.0.7",
-    "@types/react-dom": "^19.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.19.1",
-    "@typescript-eslint/parser": "^8.19.1",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.18.0",
+    "@types/node": "^25.0.3",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.51.0",
+    "@typescript-eslint/parser": "^8.51.0",
+    "@vitejs/plugin-react": "^5.1.2",
+    "eslint": "^9.39.2",
     "globals": "^16.5.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.7"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
   },
   "peerDependencies": {
     "react": ">=19.0.0",
